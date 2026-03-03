@@ -1,0 +1,48 @@
+body, html {
+    height: 100vh;
+    background-color: #f4f6f8;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    overflow-x: hidden;
+}
+
+.border-dashed {
+    border-style: dashed !important;
+    border-color: #dee2e6 !important;
+}
+
+.upload-area {
+    transition: all 0.3s ease;
+    background-color: #ffffff;
+}
+
+.upload-area.dragover {
+    background-color: #f1f8fc;
+    border-color: #0d6efd !important;
+}
+
+#mail-editor {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    background-color: #fafbfa;
+}
+
+#mail-editor:focus {
+    background-color: #ffffff;
+    box-shadow: 0 0 0 0.25rem rgba(13,110,253,.15);
+}
+
+.card {
+    border: none;
+    border-radius: 16px;
+}
+
+.table th {
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    color: #6c757d;
+}
+
+.table td {
+    font-size: 0.9rem;
+    vertical-align: middle;
+}
