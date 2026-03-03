@@ -1,9 +1,15 @@
 import os
+from dotenv import load_dotenv
+
+# Load env variables FIRST
+load_dotenv()
+
 from fastapi import FastAPI, UploadFile, File, Form, BackgroundTasks, Request
 from fastapi.responses import HTMLResponse, JSONResponse, FileResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from starlette.middleware.sessions import SessionMiddleware
+from starlette.responses import RedirectResponse as StarletteRedirect
 from authlib.integrations.starlette_client import OAuth
 from pydantic import BaseModel
 import pandas as pd
@@ -22,7 +28,8 @@ oauth.register(
     client_id=os.getenv('GOOGLE_CLIENT_ID', ''),
     client_secret=os.getenv('GOOGLE_CLIENT_SECRET', ''),
     client_kwargs={
-        'scope': 'openid email profile https://www.googleapis.com/auth/gmail.send'
+        'scope': 'openid email profile https://www.googleapis.com/auth/gmail.send',
+        'prompt': 'consent'
     }
 )
 
@@ -41,6 +48,15 @@ os.makedirs(TEMPLATE_DIR, exist_ok=True)
 @app.get("/", response_class=HTMLResponse)
 async def index(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
+
+@app.get("/api/debug_env")
+async def debug_env():
+    import os
+    return {
+        "client_id": os.environ.get('GOOGLE_CLIENT_ID', 'NOT_FOUND'),
+        "client_secret_len": len(os.environ.get('GOOGLE_CLIENT_SECRET', '')),
+        "cwd": os.getcwd()
+    }
 
 @app.get("/login")
 async def login_via_google(request: Request):
@@ -82,11 +98,13 @@ async def upload_excel(file: UploadFile = File(...)):
     data = parse_excel(file_path)
     return JSONResponse(content={"filename": file.filename, "data": data})
 
+from typing import Optional, Any, Union
+
 class SendMailRequest(BaseModel):
     subject: str
     body_template: str
     recipients: list
-    smtp_settings: dict = None
+    smtp_settings: Union[dict, None] = None
     use_google: bool = False
 
 @app.post("/api/send")

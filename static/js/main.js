@@ -1,5 +1,6 @@
 let currentData = [];
 let availableTags = [];
+let isGoogleApiReady = false;
 
 // DOM Elements
 const dropZone = document.getElementById('drop-zone');
@@ -123,27 +124,37 @@ async function startSending() {
         return;
     }
 
-    const savedSmtp = localStorage.getItem('smtpSettings');
     let smtpSettings = null;
-    if (savedSmtp) {
-        smtpSettings = JSON.parse(savedSmtp);
-        if (!smtpSettings.server || !smtpSettings.user || !smtpSettings.password) {
-            alert('SMTP Ayarlarınız eksik. Lütfen sağ üstten ⚙️ Ayarlar menüsüne girip eksikleri tamamlayın.');
+    let useGoogle = false;
+
+    if (isGoogleApiReady) {
+        useGoogle = true;
+    } else {
+        const savedSmtp = localStorage.getItem('smtpSettings');
+        if (savedSmtp) {
+            smtpSettings = JSON.parse(savedSmtp);
+            if (!smtpSettings.server || !smtpSettings.user || !smtpSettings.password) {
+                alert('SMTP Ayarlarınız eksik. Lütfen sağ üstten ⚙️ Ayarlar menüsüne girip eksikleri tamamlayın veya Google ile giriş yapın.');
+                openSmtpModal();
+                return;
+            }
+        } else {
+            alert('İlk gönderimden önce sağ üstten ⚙️ Ayarlar menüsüne girip SMTP mail bilgilerinizi kaydetmeli veya Google ile giriş yapmalısınız.');
             openSmtpModal();
             return;
         }
-    } else {
-        alert('İlk gönderimden önce sağ üstten ⚙️ Ayarlar menüsüne girip SMTP mail bilgilerinizi kaydetmelisiniz.');
-        openSmtpModal();
-        return;
     }
 
     const payload = {
         subject: subjectInput.value,
         body_template: editor.value,
         recipients: currentData,
-        smtp_settings: smtpSettings
+        use_google: useGoogle
     };
+
+    if (!useGoogle) {
+        payload.smtp_settings = smtpSettings;
+    }
 
     try {
         const bgBtn = document.querySelector('button.btn-primary');
@@ -161,13 +172,17 @@ async function startSending() {
         if (response.ok) {
             alert("✔️ " + result.message);
         } else {
-            alert("❌ Hata: " + (result.detail || result.message));
+            let errorMsg = result.detail || result.message || JSON.stringify(result);
+            if (typeof errorMsg === 'object') {
+                errorMsg = JSON.stringify(errorMsg);
+            }
+            alert("❌ Hata: " + errorMsg);
         }
 
         bgBtn.innerHTML = origText;
         bgBtn.disabled = false;
     } catch (error) {
-        alert('Gönderim başlatılamadı. Backend bağlantısını kontrol edin.');
+        alert('Gönderim başlatılamadı. Backend bağlantısını kontrol edin. (' + error.message + ')');
     }
 }
 
@@ -222,6 +237,7 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(res => res.json())
         .then(data => {
             if (data.logged_in) {
+                isGoogleApiReady = data.has_google_token;
                 document.getElementById('user-info').classList.remove('d-none');
                 document.getElementById('user-info').classList.add('d-flex');
                 document.getElementById('user-name').innerText = data.user.name;
