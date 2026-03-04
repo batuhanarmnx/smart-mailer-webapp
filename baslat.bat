@@ -82,7 +82,7 @@ echo Tum gereksinimler eksiksiz.
 echo.
 
 echo [4/4] Uygulama baslatiliyor...
-echo Arka planda tarayici 3 saniye icinde acilacak... 
+echo Arka planda tarayici 20 saniye icinde acilacak... 
 echo.
 echo =======================================================
 echo DIKKAT: SUNUCU ACIK KALDIGI SURECE BU PENCEREYI KAPATMAYIN!
@@ -91,7 +91,7 @@ echo =======================================================
 echo.
 
 :: Tarayıcıyı arka planda gecikmeli olarak aç
-start "" cmd /c "timeout /t 3 >nul && start http://localhost:8000"
+start "" cmd /c "timeout /t 20 >nul && start http://localhost:8000"
 
 :: Uygulamayı çalıştır
 python app.py
