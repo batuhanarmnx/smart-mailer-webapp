@@ -79,22 +79,9 @@ Terminalde `Uvicorn running on http://0.0.0.0:8000` mesajını gördüğünüzde
 
 Tarayıcınızı açın ve **[http://localhost:8000](http://localhost:8000)** adresine gidin.
 
----
 
-## 📸 Ekran Görüntüleri ve Kullanım Rehberi
-
-**1. Veri Yükleme (Excel):**
-Sağ üst bölümden **"Şablon İndir"** diyerek örnek formatlı Excel numunesini bilgisayarınıza indirin. Sütunlarına dokunmadan satırları kendi verileriniz ile doldurun ve uygulamadaki bulut alanına sürükleyin. Altta tüm veriler anında Grid yapısında belirecektir.
-
-**2. Mail Düzenleme:**
-Müşteri için mailinizi yazarken *"{Sirket_Adi} Merhabalar"* yazmanıza hiç gerek yok. Buton kümesinden **[Şirket Adı Ekle]** ye bastığınızda o metin kendisi yerleşecek ve toplu gönderimde her şirket kendi adıyla maili teslim alacaktır.
-
-**3. Gönderimi Devretme / Log Takibi:**
-Eğer Google ile Oturum Açtıysanız hiçbir SMTP ayosu doldurmadan Google şifrelemesi ile mailler otomatik çıkar. İşlem terminalde her saniye 1 mail atılacak bir Spam Güvenlik önlemiyle tasarlanmıştır.
-
----
 
 ## 📄 Lisans
 Bu proje geliştiriciye ait telif hakları ile korunmaktadır. Proje açık kaynak (Open Source) olup MIT veya özel lisans altında dağıtılabilir. Daha fazla bilgi için proje sahibiyle iletişime geçin.
 
-**Geliştirici:** ✨ Batuhan Aytaç (Fair Teknoloji A.Ş)
+**Geliştirici:** ✨ Batuhan Arman Aytaç (batuhanaytac37@gmail.com)
