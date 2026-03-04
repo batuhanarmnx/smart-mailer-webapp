@@ -2,7 +2,7 @@
 
 Smart Mailer, web tabanlı, dinamik ve kullanıcı dostu bir **Toplu E-Posta Gönderim Platformudur**. Özellikle kişiselleştirilmiş şablonları Excel verileriyle birleştirerek ve Google OAuth (Gmail API) entegrasyonu sayesinde saniyeler içinde binlerce kullanıcıya güvenle mail göndermenizi sağlar. İsteğe bağlı olarak klasik SMTP ayarlarıyla da çalışabilir.
 
-![Smart Mailer Görseli (Eklenecek)](https://via.placeholder.com/800x400?text=Smart+Mailer+Dashboard)
+
 
 ---
 
